@@ -28,6 +28,10 @@ Your constretto config may use any store or combination of stores - but the foll
 
 Active can be TRUE or FALSE. FALSE should disable most calls to twitter - but - not the actual twitter object initialization. This is to allow temporarily disabling posting of updates etc when testing.
 
+## History
+
+This module originally started as part of the twitter photo challenge app http://github.com/chrissearle/twphch - and the original methods reflect the needs of that app. More may well be added at a later date ;)
+
 ## References
 
 * Twitter4j: http://twitter4j.org/
