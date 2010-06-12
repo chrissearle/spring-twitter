@@ -46,7 +46,7 @@ public class TestTweet {
     public void testTweet() {
         Date now = new Date();
 
-        String tweet = TEST_TWEET + new Long(now.getTime()).toString(); 
+        String tweet = TEST_TWEET + Long.toString(now.getTime()); 
 
         tweetService.tweet(tweet);
 
