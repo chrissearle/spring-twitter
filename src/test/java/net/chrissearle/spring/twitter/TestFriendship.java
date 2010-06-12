@@ -34,10 +34,6 @@ public class TestFriendship {
     @Autowired
     private FollowService followService;
 
-    public TestFriendship() {
-        System.setProperty("CONSTRETTO_TAGS", "active");
-    }
-
     @Test
     public void testFollow() {
         followService.follow(TEST_FRIEND);

@@ -17,6 +17,8 @@
 package net.chrissearle.spring.twitter;
 
 import net.chrissearle.spring.twitter.service.UserExistanceService;
+import net.chrissearle.spring.twitter.spring.AbstractTwitter4JSupport;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:twitter4j.xml"})
@@ -35,8 +36,9 @@ public class TestUserExistanceInactive {
     @Autowired
     private UserExistanceService userExistanceService;
 
-    public TestUserExistanceInactive() {
-        System.setProperty("CONSTRETTO_TAGS", "inactive");
+    @Before
+    public void setInactive() {
+        ((AbstractTwitter4JSupport)userExistanceService).configure(false);
     }
 
     @Test

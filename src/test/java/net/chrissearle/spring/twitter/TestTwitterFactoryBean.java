@@ -36,10 +36,6 @@ public class TestTwitterFactoryBean {
     @Autowired
     private Twitter twitter;
 
-    public TestTwitterFactoryBean() {
-        System.setProperty("CONSTRETTO_TAGS", "active");
-    }
-
     @Test
     public void testConfig() throws TwitterException {
         AccessToken token = ((OAuthAuthorization) twitter.getAuthorization()).getOAuthAccessToken();

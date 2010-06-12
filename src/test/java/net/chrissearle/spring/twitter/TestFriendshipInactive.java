@@ -17,6 +17,8 @@
 package net.chrissearle.spring.twitter;
 
 import net.chrissearle.spring.twitter.service.FollowService;
+import net.chrissearle.spring.twitter.spring.AbstractTwitter4JSupport;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,9 @@ public class TestFriendshipInactive {
     @Autowired
     private FollowService followService;
 
-    public TestFriendshipInactive() {
-        System.setProperty("CONSTRETTO_TAGS", "inactive");
+    @Before
+    public void setInactive() {
+        ((AbstractTwitter4JSupport)followService).configure(false);
     }
 
     @Test

@@ -36,10 +36,6 @@ public class TestUserExistance {
     @Autowired
     private UserExistanceService userExistanceService;
 
-    public TestUserExistance() {
-        System.setProperty("CONSTRETTO_TAGS", "active");
-    }
-
     @Test
     public void testExists() {
         assertTrue("Failed to find existing user", userExistanceService.checkIfUserExists(TEST_FRIEND));
