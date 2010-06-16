@@ -12,9 +12,9 @@ import twitter4j.TwitterException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Service
+@Service("timelineService")
 public class Twitter4jTimelineService extends AbstractTwitter4JSupport implements TimelineService {
-    private final Logger logger = Logger.getLogger(Twitter4jFollowService.class.getName());
+    private final Logger logger = Logger.getLogger(Twitter4jTimelineService.class.getName());
 
     @Autowired
     public Twitter4jTimelineService(Twitter twitter) {

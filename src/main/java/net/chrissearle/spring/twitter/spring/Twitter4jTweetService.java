@@ -26,7 +26,7 @@ import twitter4j.TwitterException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Service
+@Service("tweetService")
 public class Twitter4jTweetService extends AbstractTwitter4JSupport implements TweetService {
     private final Logger logger = Logger.getLogger(Twitter4jTweetService.class.getName());
 

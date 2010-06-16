@@ -25,9 +25,9 @@ import twitter4j.TwitterException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Service
+@Service("userExistanceService")
 public class Twitter4jUserExistanceService extends AbstractTwitter4JSupport implements UserExistanceService {
-    private final Logger logger = Logger.getLogger(Twitter4jTweetService.class.getName());
+    private final Logger logger = Logger.getLogger(Twitter4jUserExistanceService.class.getName());
 
     @Autowired
     public Twitter4jUserExistanceService(Twitter twitter) {
