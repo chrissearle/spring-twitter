@@ -35,7 +35,7 @@ public class Twitter4jUserExistanceService extends AbstractTwitter4JSupport impl
     }
 
     public boolean checkIfUserExists(String twitterId) {
-        boolean userExists = false;
+        boolean userExists = true;
 
         if (logger.isLoggable(Level.INFO)) {
             logger.info(new StringBuilder().append("Asking for: ").append(twitterId).toString());

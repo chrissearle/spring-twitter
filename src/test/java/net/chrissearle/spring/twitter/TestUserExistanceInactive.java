@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:twitter4j.xml"})
@@ -43,11 +43,11 @@ public class TestUserExistanceInactive {
 
     @Test
     public void testExists() {
-        assertFalse("Found existing user when inactive", userExistanceService.checkIfUserExists(TEST_FRIEND));
+        assertTrue("When inactive we should just say yes for user check", userExistanceService.checkIfUserExists(TEST_FRIEND));
     }
 
     @Test
     public void testNotExists() {
-        assertFalse("Found non-existing user", userExistanceService.checkIfUserExists(TEST_IMAGINARY_FRIEND));
+        assertTrue("When inactive we should just say yes for user check", userExistanceService.checkIfUserExists(TEST_IMAGINARY_FRIEND));
     }
 }
