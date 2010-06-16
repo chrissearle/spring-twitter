@@ -46,7 +46,7 @@ public abstract class AbstractTwitter4JSupport {
         this.twitterActiveFlag = active;
     }
 
-    protected Boolean getTwitterActiveFlag() {
+    public Boolean isActive() {
         return this.twitterActiveFlag;
     }
 }

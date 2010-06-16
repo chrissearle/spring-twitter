@@ -26,4 +26,6 @@ public interface FollowService {
     void unfollow(String twitterUserId);
 
     List<String> amFollowing();
+
+    List<String> followingMe();
 }

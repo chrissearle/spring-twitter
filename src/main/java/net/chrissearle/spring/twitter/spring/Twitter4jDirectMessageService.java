@@ -40,7 +40,7 @@ public class Twitter4jDirectMessageService extends AbstractTwitter4JSupport impl
             logger.info(new StringBuilder().append("DM to ").append(userName).append(" with text ").append(message).toString());
         }
 
-        if (getTwitterActiveFlag()) {
+        if (isActive()) {
             sendMessage(userName, message);
         } else {
             if (logger.isLoggable(Level.INFO)) {

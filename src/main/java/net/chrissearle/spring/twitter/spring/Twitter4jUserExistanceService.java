@@ -41,7 +41,7 @@ public class Twitter4jUserExistanceService extends AbstractTwitter4JSupport impl
             logger.info(new StringBuilder().append("Asking for: ").append(twitterId).toString());
         }
 
-        if (getTwitterActiveFlag()) {
+        if (isActive()) {
             userExists = askTwitterForUser(twitterId);
         }
 

@@ -46,7 +46,7 @@ public class Twitter4jFollowService extends AbstractTwitter4JSupport implements 
             logger.info(new StringBuilder().append("Following: ").append(twitterUserId).toString());
         }
 
-        if (getTwitterActiveFlag()) {
+        if (isActive()) {
             addTwitterFriendshipAndNotification(twitterUserId);
         } else {
             if (logger.isLoggable(Level.INFO)) {
@@ -61,7 +61,7 @@ public class Twitter4jFollowService extends AbstractTwitter4JSupport implements 
             logger.info(new StringBuilder().append("Checking isFriend: ").append(twitterUserId).toString());
         }
 
-        if (getTwitterActiveFlag()) {
+        if (isActive()) {
             return checkForFriendship(twitterUserId);
         } else {
             if (logger.isLoggable(Level.INFO)) {
@@ -78,7 +78,7 @@ public class Twitter4jFollowService extends AbstractTwitter4JSupport implements 
             logger.info(new StringBuilder().append("Stopping following: ").append(twitterUserId).toString());
         }
 
-        if (getTwitterActiveFlag()) {
+        if (isActive()) {
             removeTwitterFriendshipAndNotification(twitterUserId);
         } else {
             if (logger.isLoggable(Level.INFO)) {
@@ -93,8 +93,22 @@ public class Twitter4jFollowService extends AbstractTwitter4JSupport implements 
             logger.info("Getting following list");
         }
 
-        if (getTwitterActiveFlag()) {
+        if (isActive()) {
             return retrieveFollowing();
+        }
+
+        // Nothing found - return empty list.
+        return new ArrayList<String>();
+    }
+
+    @Override
+    public List<String> followingMe() {
+        if (logger.isLoggable(Level.INFO)) {
+            logger.info("Getting followers list");
+        }
+
+        if (isActive()) {
+            return retrieveFollowers();
         }
 
         // Nothing found - return empty list.
@@ -105,19 +119,10 @@ public class Twitter4jFollowService extends AbstractTwitter4JSupport implements 
         List<String> usernames = new ArrayList<String>();
 
         try {
-            IDs ids = twitter.getFriendsIDs();
 
-            for (int id : ids.getIDs()) {
-                User user = twitter.showUser(id);
-
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine(new StringBuilder().append("Saw friend: ").append(user.getName()).append(" ").append(user.getScreenName()).toString());
-                }
-
-                usernames.add(user.getScreenName());
-            }
+            usernames = populateUsernameList(twitter.getFriendsIDs());
         } catch (TwitterException e) {
-            final String message = new StringBuilder().append("Unable to retrieve friend details due to ").append(e.getMessage()).toString();
+            final String message = new StringBuilder().append("Unable to retrieve user details due to ").append(e.getMessage()).toString();
 
             if (logger.isLoggable(Level.WARNING)) {
                 logger.warning(message);
@@ -129,6 +134,41 @@ public class Twitter4jFollowService extends AbstractTwitter4JSupport implements 
         return usernames;
     }
 
+
+    private List<String> retrieveFollowers() {
+        List<String> usernames = new ArrayList<String>();
+
+        try {
+
+            usernames = populateUsernameList(twitter.getFollowersIDs());
+        } catch (TwitterException e) {
+            final String message = new StringBuilder().append("Unable to retrieve user details due to ").append(e.getMessage()).toString();
+
+            if (logger.isLoggable(Level.WARNING)) {
+                logger.warning(message);
+            }
+
+            throw new TwitterServiceException(message, e);
+        }
+
+        return usernames;
+    }
+
+    private List<String> populateUsernameList(IDs ids) throws TwitterException {
+        List<String> usernames = new ArrayList<String>();
+
+        for (int id : ids.getIDs()) {
+            User user = twitter.showUser(id);
+
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(new StringBuilder().append("Saw user: ").append(user.getName()).append(" ").append(user.getScreenName()).toString());
+            }
+
+            usernames.add(user.getScreenName());
+        }
+
+        return usernames;
+    }
 
     private boolean checkForFriendship(String twitterId) {
         try {

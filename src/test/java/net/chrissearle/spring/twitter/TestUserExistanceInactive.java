@@ -18,6 +18,7 @@ package net.chrissearle.spring.twitter;
 
 import net.chrissearle.spring.twitter.service.UserExistanceService;
 import net.chrissearle.spring.twitter.spring.AbstractTwitter4JSupport;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,9 +37,22 @@ public class TestUserExistanceInactive {
     @Autowired
     private UserExistanceService userExistanceService;
 
+    private Boolean activeFlag;
+
     @Before
     public void setInactive() {
-        ((AbstractTwitter4JSupport)userExistanceService).configure(false);
+        final AbstractTwitter4JSupport abstractTwitter4JSupport = (AbstractTwitter4JSupport) userExistanceService;
+
+        activeFlag = abstractTwitter4JSupport.isActive();
+
+        abstractTwitter4JSupport.configure(false);
+    }
+
+    @After
+    public void setActiveFlag() {
+        final AbstractTwitter4JSupport abstractTwitter4JSupport = (AbstractTwitter4JSupport) userExistanceService;
+
+        abstractTwitter4JSupport.configure(activeFlag);
     }
 
     @Test

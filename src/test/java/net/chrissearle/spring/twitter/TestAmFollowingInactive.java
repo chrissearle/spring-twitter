@@ -18,6 +18,7 @@ package net.chrissearle.spring.twitter;
 
 import net.chrissearle.spring.twitter.service.FollowService;
 import net.chrissearle.spring.twitter.spring.AbstractTwitter4JSupport;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,9 +38,22 @@ public class TestAmFollowingInactive {
     @Autowired
     private FollowService followService;
 
+    private Boolean activeFlag;
+
     @Before
     public void setInactive() {
-        ((AbstractTwitter4JSupport)followService).configure(false);
+        final AbstractTwitter4JSupport abstractTwitter4JSupport = (AbstractTwitter4JSupport) followService;
+
+        activeFlag = abstractTwitter4JSupport.isActive();
+
+        abstractTwitter4JSupport.configure(false);
+    }
+
+    @After
+    public void setActiveFlag() {
+        final AbstractTwitter4JSupport abstractTwitter4JSupport = (AbstractTwitter4JSupport) followService;
+
+        abstractTwitter4JSupport.configure(activeFlag);
     }
 
     @Test

@@ -17,45 +17,29 @@
 package net.chrissearle.spring.twitter;
 
 import net.chrissearle.spring.twitter.service.FollowService;
-import net.chrissearle.spring.twitter.spring.AbstractTwitter4JSupport;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:twitter4j.xml"})
-public class TestFriendshipInactive {
-    private static final String TEST_FRIEND = "csnet";
+public class TestIsFollowing {
+    private static final String TEST_FRIEND = "chrissearle";
 
     @Autowired
     private FollowService followService;
 
-    private Boolean activeFlag;
-
-    @Before
-    public void setInactive() {
-        final AbstractTwitter4JSupport abstractTwitter4JSupport = (AbstractTwitter4JSupport) followService;
-
-        activeFlag = abstractTwitter4JSupport.isActive();
-
-        abstractTwitter4JSupport.configure(false);
-    }
-
-    @After
-    public void setActiveFlag() {
-        final AbstractTwitter4JSupport abstractTwitter4JSupport = (AbstractTwitter4JSupport) followService;
-
-        abstractTwitter4JSupport.configure(activeFlag);
-    }
-
     @Test
-    public void testIsFriendShouldBeFalseWhenInactive() {
-        assertFalse("Incorrect response", followService.isFriend(TEST_FRIEND));
+    public void testIsFollowing() {
+        List<String> ids = followService.followingMe();
+
+        assertTrue("Following list did not contain newly followed friend", ids.contains(TEST_FRIEND));
     }
 }

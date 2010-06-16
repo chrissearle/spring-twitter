@@ -26,12 +26,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.assertFalse;
+import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:twitter4j.xml"})
-public class TestFriendshipInactive {
-    private static final String TEST_FRIEND = "csnet";
+public class TestIsFollowingInactive {
+    private static final String TEST_FRIEND = "chrissearle";
 
     @Autowired
     private FollowService followService;
@@ -55,7 +57,9 @@ public class TestFriendshipInactive {
     }
 
     @Test
-    public void testIsFriendShouldBeFalseWhenInactive() {
-        assertFalse("Incorrect response", followService.isFriend(TEST_FRIEND));
+    public void testIsFollowing() {
+        List<String> ids = followService.followingMe();
+
+        assertTrue("User list should be empty when inactive", ids.size() == 0);
     }
 }

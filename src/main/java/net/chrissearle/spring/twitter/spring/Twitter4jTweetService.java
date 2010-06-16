@@ -40,7 +40,7 @@ public class Twitter4jTweetService extends AbstractTwitter4JSupport implements T
             logger.info(new StringBuilder().append("Tweet: ").append(message).toString());
         }
 
-        if (getTwitterActiveFlag()) {
+        if (isActive()) {
             updateTwitterStatus(message);
         } else {
             if (logger.isLoggable(Level.INFO)) {

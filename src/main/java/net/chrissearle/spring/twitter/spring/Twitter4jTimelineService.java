@@ -28,7 +28,7 @@ public class Twitter4jTimelineService extends AbstractTwitter4JSupport implement
             logger.info(new StringBuilder().append("Getting last tweet").toString());
         }
 
-        if (getTwitterActiveFlag()) {
+        if (isActive()) {
             return retrieveLastPostFromTimeline();
         } else {
             if (logger.isLoggable(Level.INFO)) {
