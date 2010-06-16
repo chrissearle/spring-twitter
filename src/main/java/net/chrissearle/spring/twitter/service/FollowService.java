@@ -16,10 +16,14 @@
 
 package net.chrissearle.spring.twitter.service;
 
+import java.util.List;
+
 public interface FollowService {
     void follow(String twitterUserId);
 
     boolean isFriend(String twitterUserId);
 
     void unfollow(String twitterUserId);
+
+    List<String> amFollowing();
 }

@@ -20,9 +20,13 @@ import net.chrissearle.spring.twitter.service.FollowService;
 import net.chrissearle.spring.twitter.service.TwitterServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import twitter4j.IDs;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -81,6 +85,48 @@ public class Twitter4jFollowService extends AbstractTwitter4JSupport implements 
                 logger.info("Twitter disabled");
             }
         }
+    }
+
+    @Override
+    public List<String> amFollowing() {
+        if (logger.isLoggable(Level.INFO)) {
+            logger.info("Getting following list");
+        }
+
+        if (getTwitterActiveFlag()) {
+            return retrieveFollowing();
+        }
+
+        // Nothing found - return empty list.
+        return new ArrayList<String>();
+    }
+
+    private List<String> retrieveFollowing() {
+        List<String> usernames = new ArrayList<String>();
+
+        try {
+            IDs ids = twitter.getFriendsIDs();
+
+            for (int id : ids.getIDs()) {
+                User user = twitter.showUser(id);
+
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(new StringBuilder().append("Saw friend: ").append(user.getName()).append(" ").append(user.getScreenName()).toString());
+                }
+
+                usernames.add(user.getScreenName());
+            }
+        } catch (TwitterException e) {
+            final String message = new StringBuilder().append("Unable to retrieve friend details due to ").append(e.getMessage()).toString();
+
+            if (logger.isLoggable(Level.WARNING)) {
+                logger.warning(message);
+            }
+
+            throw new TwitterServiceException(message, e);
+        }
+
+        return usernames;
     }
 
 
